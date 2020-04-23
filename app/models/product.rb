@@ -30,6 +30,10 @@ class Product < ApplicationRecord
     where("title ILIKE?", "%#{query}%")
   end
 
+  def increment_hit_count
+    new_hit_count = self.hit_count += 1
+    update({ hit_count: new_hit_count })
+  end
   private
 
   def set_default_price
