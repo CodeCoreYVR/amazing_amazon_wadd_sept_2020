@@ -3,7 +3,8 @@ class Product < ApplicationRecord
   DEFAULT_PRICE = 1 # a ruby convention is to place constants at the top of the file and name them using SCREAMING_SNAKE_CASE
   # rubocop has good guidelines on best practices https://github.com/rubocop-hq/ruby-style-guide
 
-  before_validation :set_default_price
+  # Potential bug alert: :set_default_sale_price should always be called after :set_default_price otherwise you can end up with a sale price of nil
+  before_validation :set_default_price, :set_default_sale_price
   before_save :capitalize_title
 
   validates(:title,
@@ -16,6 +17,7 @@ class Product < ApplicationRecord
   )
   validates :price, numericality: { greater_than: 0 }
   validates :description, presence: true, length: { minimum: 10 }
+  validate :sale_price_less_than_price
 
   # scope(name, body, &block) is a method that will add a class method for retrieving records
   # https://api.rubyonrails.org/classes/ActiveRecord/Scoping/Named/ClassMethods.html#method-i-scope
@@ -38,4 +40,13 @@ class Product < ApplicationRecord
     self.title.capitalize!
   end
 
+  def sale_price_less_than_price
+    if self.sale_price > self.price
+      errors.add(:sale_price, "sale_price: #{self.sale_price} must be lower than price: #{self.price}")
+    end
+  end
+
+  def set_default_sale_price
+    self.sale_price ||= self.price
+  end
 end
