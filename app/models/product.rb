@@ -6,7 +6,14 @@ class Product < ApplicationRecord
   before_validation :set_default_price
   before_save :capitalize_title
 
-  validates :title, presence: true, uniqueness: true
+  validates(:title,
+    presence: true,
+    uniqueness: true,
+    exclusion:
+      { in: ['apple', 'microsoft', 'sony'],
+        message: "%{value} is a reserved title. Please use a different title"
+      }
+  )
   validates :price, numericality: { greater_than: 0 }
   validates :description, presence: true, length: { minimum: 10 }
 
