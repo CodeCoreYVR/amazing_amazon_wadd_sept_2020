@@ -4,4 +4,8 @@ Rails.application.routes.draw do
   get('/about', to: 'welcome#about')
   get('/contact_us', to: 'welcome#contact_us')
   post('/thank_you', to: 'welcome#thank_you')
+
+  #bill splitter
+  get '/bill_splitter', to: 'bill_splitter#new'
+  post '/calculate_split', to: 'bill_splitter#create'
 end
