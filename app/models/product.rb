@@ -36,6 +36,11 @@ class Product < ApplicationRecord
     new_hit_count = self.hit_count += 1
     update({ hit_count: new_hit_count })
   end
+
+  def self.get_paginated(search, sort_by_col, current_page, per_page_count)
+    where("title ILIKE ? OR description ILIKE ?", "%#{search}%", "%#{search}%").order(Hash[sort_by_col, :desc]).limit(per_page_count).offset(current_page * per_page_count) 
+  end
+
   private
 
   def set_default_price
