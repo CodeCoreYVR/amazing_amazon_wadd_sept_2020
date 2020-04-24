@@ -6,6 +6,8 @@ class Product < ApplicationRecord
   # Potential bug alert: :set_default_sale_price should always be called after :set_default_price otherwise you can end up with a sale price of nil
   before_validation :set_default_price, :set_default_sale_price
   before_save :capitalize_title
+  # only invoke this callback if the current environment is development.
+  before_destroy :log_delete_details, unless: Proc.new { !Rails.env.development? }
 
   validates(:title,
     presence: true,
@@ -52,5 +54,9 @@ class Product < ApplicationRecord
 
   def set_default_sale_price
     self.sale_price ||= self.price
+  end
+
+  def log_delete_details
+    puts "Product #{self.id} is about to be deleted"
   end
 end
