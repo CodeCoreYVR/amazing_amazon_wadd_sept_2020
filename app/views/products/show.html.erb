@@ -17,4 +17,17 @@
   </div>
   <hr/>
   <p class='shadow-none p-3 rounded'><%= @product.description %></p>
+  <div>
+    <%# link_to() just creates a anchor tag with the appropriate href. The 3rd argument is a optional options hash which can have a :method key; If a :method key is provided Rails will set a data-method attribute to the a tag and adds some additional javascript to the page which makes the anchor tag use the specified http method instead of the default GET. (Basically Rails Magic) 
+    <%# https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to %>
+    <%# passing a value (number/string) to a helper method like `product_path` will return a path with the value appended to the path. Helper paths automatically grab and use the id if it's given a instance %>
+    <%= link_to(
+      "Delete",
+      product_path(@product),
+      method: :delete,
+      class: 'btn btn-danger',
+      data: { confirm: 'are you sure?' },
+      )
+    %>
+  </div>
 </div> 
