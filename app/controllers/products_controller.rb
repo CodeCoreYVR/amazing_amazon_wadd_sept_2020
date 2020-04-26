@@ -1,4 +1,9 @@
 class ProductsController < ApplicationController
+
+  def index
+    @products = Product.all.order('created_at DESC')
+  end
+
   def new
     @product = Product.new
   end
@@ -10,6 +15,10 @@ class ProductsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def show
+    @product = Product.find(params[:id])
   end
 
   private

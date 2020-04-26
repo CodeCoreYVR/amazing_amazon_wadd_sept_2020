@@ -1,0 +1,20 @@
+<div class='shadow-sm p-3 mb-5 bg-white rounded overflow-wrap'>
+  <div class='clearfix'>
+    <h1 class='float-left'>
+      <span class='badge badge-pill badge-info'>
+        <%= @product.id %>
+      </span>
+      <%= @product.title %>
+    </h1>
+    <h1 class='float-right text-center'>
+      <% if @product.sale_price.present? && @product.sale_price < @product.price %>
+        <span class='badge badge-pill badge-success'><s><%= number_to_currency @product.price %></s></span>
+        <span class='badge badge-pill badge-danger'><%= number_to_currency @product.sale_price %></span>
+      <% else %>
+        <span class='badge badge-pill badge-success'><%= number_to_currency @product.price %></span>
+      <% end %>
+    </h1>
+  </div>
+  <hr/>
+  <p class='shadow-none p-3 rounded'><%= @product.description %></p>
+</div> 
