@@ -21,6 +21,7 @@ class Product < ApplicationRecord
   validates :description, presence: true, length: { minimum: 10 }
   validate :sale_price_less_than_price
 
+  belongs_to :user
   # has_many accepts a scope as a second argument. This scope will make all associated reviews ordered by their updated_at, see the following example:
 =begin
   @product = Product.find(params[:id])
