@@ -20,7 +20,8 @@ super_user = User.create(
   first_name: 'jon',
   last_name: 'snow',
   email: 'js@winterfell.gov',
-  password: PASSWORD
+  password: PASSWORD,
+  admin: true
 )
 
 NUM_OF_USERS.times do |x|

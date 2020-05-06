@@ -26,5 +26,11 @@ Rails.application.routes.draw do
     resources :reviews, only: [:create, :destroy]
   end
 
+  resources :users, only: [:new, :create]
+
+  namespace :admin do 
+    resources :dashboard, only: [:index]
+  end
+
 
 end
