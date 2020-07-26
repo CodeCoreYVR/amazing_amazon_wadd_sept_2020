@@ -1,5 +1,13 @@
 <div class='row'>
   <div class='col-2'>
+    <% if @tag.present? %>
+      <h6>
+        Showing products tagged by:
+        <span class="badge badge-pill badge-primary">
+          <%= @tag.name %>
+        </span>
+      </h6>
+    <% end %>
   </div>
 
   <div class='col-10'>
