@@ -32,5 +32,5 @@ Rails.application.routes.draw do
     resources :dashboard, only: [:index]
   end
 
-  resources :news_articles, only: [:new, :create, :show]
+  resources :news_articles
 end
