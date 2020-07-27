@@ -41,5 +41,34 @@ class Ability
     can :crud, Review do |review|
       review.user == user
     end
+
+    can :like, Review do |review|
+      review.user != user 
+    end
+
+    can :destroy, Like do |like|
+      like.user == user 
+    end
+
+    can :favourite, Product do |product|
+      product.user != user 
+    end 
+
+    can :destroy, Favourite do |favourite|
+      favourite.user == user 
+    end 
+
+    can :vote, Review do |review|
+      review.user != user 
+    end 
+
+    can :crud, Vote do |vote|
+      vote.user == user 
+    end 
+
+    can :crud, NewsArticle do |news_article|
+      news_article.user == user 
+    end
+
   end
 end
