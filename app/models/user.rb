@@ -16,6 +16,9 @@ class User < ApplicationRecord
 
   has_many :news_articles, dependent: :nullify
 
+  has_many :likes, dependent: :destroy
+  has_many :liked_reviews, through: :likes, source: :review
+
   # Validations
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :first_name, :last_name, presence: true

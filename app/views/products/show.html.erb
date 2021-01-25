@@ -62,7 +62,7 @@
       <p class='font-weight-lighter d-inline-block'>by <%= review.user.full_name %></p>
       <%= link_to(
         "Delete",
-        product_review_path(@product, review),
+        review_path(review),
         method: :delete,
         class: 'btn btn-danger float-right',
         data: { confirm: 'delete this review?' }
@@ -71,5 +71,16 @@
     </h4>
     <%# adding styles to .review-body inside of 'app/assets/stylesheets/reviews.scss'. Rails will automatically include stylesheets in controllers if the name of the stylesheet is the same name as the controller %>
     <p class='review-body text-muted'><%= review.body %></p>
+    <p>
+      <% if user_signed_in?  && can?(:like, review)%>
+          <% like = current_user.likes.find_by_review_id(review) %>
+          <% if like %>
+            <%= link_to 'Unlike', like_path(like), method: :delete %>
+          <% else %>
+            <%= link_to 'Like', review_likes_path(review), method: :post %>
+          <% end %>
+      <% end %>
+     <%= review.likes.count%> likes
+    </p>
   </div>
 <% end %>
