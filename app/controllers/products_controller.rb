@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :authorize, only: [:edit, :update, :destroy]
 
   def index
     @products = Product.all.order('created_at DESC')
@@ -49,5 +50,12 @@ class ProductsController < ApplicationController
     # docs about params.require() https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-require
     # docs about .permit() https://api.rubyonrails.org/classes/ActionController/Parameters.html#method-i-permit
     params.require(:product).permit(:title, :description, :price, :sale_price)
+  end
+
+  def authorize
+    unless can?(:crud, @product)
+      flash[:danger] = "Not authorized"
+      redirect_to root_path
+    end
   end
 end

@@ -21,20 +21,22 @@
   <small>
   <hr/>
   <p class='shadow-none p-3 rounded'><%= @product.description %></p>
-  <div>
-    <%# link_to() just creates a anchor tag with the appropriate href. The 3rd argument is a optional options hash which can have a :method key; If a :method key is provided Rails will set a data-method attribute to the a tag and adds some additional javascript to the page which makes the anchor tag use the specified http method instead of the default GET. (Basically Rails Magic) 
-    <%# https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to %>
-    <%# passing a value (number/string) to a helper method like `product_path` will return a path with the value appended to the path. Helper paths automatically grab and use the id if it's given a instance %>
-    <%= link_to(
-      "Delete",
-      product_path(@product),
-      method: :delete,
-      class: 'btn btn-danger',
-      data: { confirm: 'are you sure?' },
-      )
-    %>
-    <%= link_to "Edit", edit_product_path(@product), class: 'btn btn-info'%>
-  </div>
+  <% if can?(:crud, @product) %>
+    <div>
+      <%# link_to() just creates a anchor tag with the appropriate href. The 3rd argument is a optional options hash which can have a :method key; If a :method key is provided Rails will set a data-method attribute to the a tag and adds some additional javascript to the page which makes the anchor tag use the specified http method instead of the default GET. (Basically Rails Magic) %>
+      <%# https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to %>
+      <%# passing a value (number/string) to a helper method like `product_path` will return a path with the value appended to the path. Helper paths automatically grab and use the id if it's given a instance %>
+      <%= link_to(
+        "Delete",
+        product_path(@product),
+        method: :delete,
+        class: 'btn btn-danger',
+        data: { confirm: 'are you sure?' },
+        )
+      %>
+      <%= link_to "Edit", edit_product_path(@product), class: 'btn btn-info'%>
+    </div>
+  <% end %>
 </div> 
 <p class='text-muted'>Leave a Review :D</p>
 <div class='shadow-sm p-3 mb-5 bg-white rounded'>
@@ -54,22 +56,56 @@
 <h2> Here's what people are saying: </h2>
 
 <% @product.reviews.each do |review| %>
-  <div class='shadow-sm p-3 mb-1 bg-white rounded'>   
-  <%# display_stars is a custom helper method to display stars located in /app/helpers/reviews_helper.rb %>
-  <%# all methods defined in any helper file are available in all views :D. We can place complex logic in these helpers to avoid bloating our model. (business logic inside of controller should be kept to a minimum) %>
-    <h4>
-      <%= display_stars(review) %>
-      <p class='font-weight-lighter d-inline-block'>by <%= review.user.full_name %></p>
-      <%= link_to(
-        "Delete",
-        product_review_path(@product, review),
-        method: :delete,
-        class: 'btn btn-danger float-right',
-        data: { confirm: 'delete this review?' }
-        )
-      %>
-    </h4>
-    <%# adding styles to .review-body inside of 'app/assets/stylesheets/reviews.scss'. Rails will automatically include stylesheets in controllers if the name of the stylesheet is the same name as the controller %>
-    <p class='review-body text-muted'><%= review.body %></p>
-  </div>
+   <% if can?(:hide, review) %>
+    <div class='shadow-sm p-3 mb-1 bg-white rounded <%= review.hidden? ? 'muted' : '' %>'>   
+    <%# display_stars is a custom helper method to display stars located in /app/helpers/reviews_helper.rb %>
+    <%# all methods defined in any helper file are available in all views :D. We can place complex logic in these helpers to avoid bloating our model. (business logic inside of controller should be kept to a minimum) %>
+      <h4>
+        <%= display_stars(review) %>
+        <p class='font-weight-lighter d-inline-block'>by <%= review.user.full_name %></p>
+        <%= link_to(
+          review.hidden? ? 'Unhide' : 'Hide',
+          product_review_path(@product, review),
+          method: :patch,
+          class: 'btn btn-info float-right',
+          )
+        %>
+        <% if can?(:crud, review) %>
+          <%= link_to(
+            "Delete",
+            product_review_path(@product, review),
+            method: :delete,
+            class: 'btn btn-danger float-right',
+            data: { confirm: 'delete this review?' }
+            )
+          %>
+        <% end %>
+      </h4>
+      <%# adding styles to .review-body inside of 'app/assets/stylesheets/reviews.scss'. Rails will automatically include stylesheets in controllers if the name of the stylesheet is the same name as the controller %>
+      <p class='review-body text-muted'><%= review.body %></p>
+    </div>
+    <% else %>
+    <% unless review.hidden %>
+      <div class='shadow-sm p-3 mb-1 bg-white rounded%>'>   
+      <%# display_stars is a custom helper method to display stars located in /app/helpers/reviews_helper.rb %>
+      <%# all methods defined in any helper file are available in all views :D. We can place complex logic in these helpers to avoid bloating our model. (business logic inside of controller should be kept to a minimum) %>
+        <h4>
+          <%= display_stars(review) %>
+          <p class='font-weight-lighter d-inline-block'>by <%= review.user.full_name %></p>
+          <% if can?(:crud, review) %>
+            <%= link_to(
+              "Delete",
+              product_review_path(@product, review),
+              method: :delete,
+              class: 'btn btn-danger float-right',
+              data: { confirm: 'delete this review?' }
+              )
+            %>
+          <% end %>
+        </h4>
+        <%# adding styles to .review-body inside of 'app/assets/stylesheets/reviews.scss'. Rails will automatically include stylesheets in controllers if the name of the stylesheet is the same name as the controller %>
+        <p class='review-body text-muted'><%= review.body %></p>
+      </div>
+    <% end%>
+  <% end %>
 <% end %>

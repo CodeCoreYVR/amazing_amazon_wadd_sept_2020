@@ -13,10 +13,21 @@ class ReviewsController < ApplicationController
       render 'products/show'
     end
   end
+
+  def update
+    @review = Review.find params[:id]
+    hidden = !@review.hidden
+    @review.update(hidden: hidden)
+    redirect_to product_path(@review.product)
+  end
   
   def destroy
     @review = Review.find params[:id]
-    @review.delete
-    redirect_to product_path(@review.product)
+    if can?(:crud, @review)
+      @review.delete
+      redirect_to product_path(@review.product)
+    else
+      head :unauthorized
+    end
   end
 end
