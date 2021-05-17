@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root 'welcome#home'
-  get('/home', to: 'welcome#home')
-  get('/about', to: 'welcome#about')
-  get('/contact_us', to: 'welcome#contact_us')
-  post('/thank_you', to: 'welcome#thank_you')
+  root "welcome#home"
+  get("/home", to: "welcome#home")
+  get("/about", to: "welcome#about")
+  get("/contact_us", to: "welcome#contact_us")
+  post("/thank_you", to: "welcome#thank_you")
 
   #bill splitter
-  get '/bill_splitter', to: 'bill_splitter#new'
-  post '/calculate_split', to: 'bill_splitter#create'
+  get "/bill_splitter", to: "bill_splitter#new"
+  post "/calculate_split", to: "bill_splitter#create"
 
   # Session Routes
   resource :session, only: [:new, :create, :destroy]
@@ -22,6 +22,14 @@ Rails.application.routes.draw do
   #  get '/products/:id/edit', to: 'products#edit', as: :edit_product
   #  patch '/products/:id', to: 'products#update'
 
+  # Here are the routes for our API
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resource :session, only: [:create, :destroy]
+      resources :products
+    end
+  end
+
   resources :products do
     resources :reviews, shallow: :true, only: [:create, :destroy] do
       resources :likes, only: [:create, :destroy]
@@ -30,7 +38,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create]
 
-  namespace :admin do 
+  namespace :admin do
     resources :dashboard, only: [:index]
   end
 

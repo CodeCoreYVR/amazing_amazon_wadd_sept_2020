@@ -15,13 +15,10 @@ class Product < ApplicationRecord
   before_destroy :log_delete_details, unless: Proc.new { !Rails.env.development? }
 
   validates(:title,
-    presence: true,
-    uniqueness: true,
-    exclusion:
-      { in: ['apple', 'microsoft', 'sony'],
-        message: "%{value} is a reserved title. Please use a different title"
-      }
-  )
+            presence: true,
+            uniqueness: true,
+            exclusion: { in: ["apple", "microsoft", "sony"],
+                        message: "%{value} is a reserved title. Please use a different title" })
   validates :price, numericality: { greater_than: 0 }
   validates :description, presence: true, length: { minimum: 10 }
   validate :sale_price_less_than_price
@@ -33,12 +30,12 @@ class Product < ApplicationRecord
   @product.reviews # will be all the associated reviews for this particular product and due to the scope they're all ordered by updated_at
 =end
 
-  has_many :reviews, -> { order('updated_at DESC') }, dependent: :destroy 
+  has_many :reviews, -> { order("updated_at DESC") }, dependent: :destroy
 
   # scope(name, body, &block) is a method that will add a class method for retrieving records
   # https://api.rubyonrails.org/classes/ActiveRecord/Scoping/Named/ClassMethods.html#method-i-scope
   # in ruby & rails docks &block means the method accepts a lambda.
-  scope(:search, -> (query) { where("title ILIKE?", "%#{query}%") })
+  scope(:search, ->(query) { where("title ILIKE?", "%#{query}%") })
 
   # you can create a class method that does the same thing.
 
@@ -52,7 +49,7 @@ class Product < ApplicationRecord
   end
 
   def self.get_paginated(search, sort_by_col, current_page, per_page_count)
-    where("title ILIKE ? OR description ILIKE ?", "%#{search}%", "%#{search}%").order(Hash[sort_by_col, :desc]).limit(per_page_count).offset(current_page * per_page_count) 
+    where("title ILIKE ? OR description ILIKE ?", "%#{search}%", "%#{search}%").order(Hash[sort_by_col, :desc]).limit(per_page_count).offset(current_page * per_page_count)
   end
 
   def tag_names
@@ -100,5 +97,4 @@ class Product < ApplicationRecord
   def set_default_hit_count
     self.hit_count ||= DEFAULT_HIT_COUNT
   end
-
 end
