@@ -16,9 +16,7 @@ class ProductsController < ApplicationController
   end
 
   def create
-    # strong parameters are used primarily as a security practice to help
-    # prevent accidentally allowing users to update sensitive model attributes.
- 
+
     @product = Product.new product_params
     @product.user = @current_user
     if @product.save
