@@ -37,6 +37,8 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "rails-controller-testing", "~> 1.0", ">= 1.0.5"
   gem "faker", "~> 2.11"
+  gem 'rack-cors'
+  gem "rails_same_site_cookie"
 end
 
 group :development do

@@ -7,10 +7,10 @@ require_relative "../lib/stdout_helpers"
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-NUM_OF_USERS = 10
-NUM_OF_PRODUCTS = 100
+NUM_OF_USERS = 4
+NUM_OF_PRODUCTS = 10
 NUM_OF_REVIEWS = 2
-NUM_OF_TAGS = 5
+NUM_OF_TAGS = 2
 PASSWORD = "supersecret"
 
 Review.destroy_all()

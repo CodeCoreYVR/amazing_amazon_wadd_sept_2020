@@ -23,10 +23,11 @@ Rails.application.routes.draw do
   #  patch '/products/:id', to: 'products#update'
 
   # Here are the routes for our API
-  namespace :api, defaults: { format: :json } do
+  namespace :api, defaults: { format: :json } do #👈🏻 we can set default response format of the block
     namespace :v1 do
+      resources :products, only: [:index, :show, :create, :update, :destroy]
       resource :session, only: [:create, :destroy]
-      resources :products
+      get("/current_user", to: "sessions#get_current_user")
     end
   end
 

@@ -18,6 +18,10 @@ class ProductSerializer < ActiveModel::Serializer
   has_many :reviews
 
   class ReviewSerializer < ActiveModel::Serializer
-    attributes(:id, :body, :rating)
+    attributes(:id, :body, :rating, :created_at, :reviewer)
+
+    def reviewer
+      object.user&.full_name
+    end
   end
 end
