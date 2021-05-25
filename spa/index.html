@@ -9,17 +9,33 @@
 </head>
 
 <body>
-   <header> 
 
-</header>
   <h1>Amazon</h1>
   <div id="product-show" class="page"></div>
   <div id="product-index" class="page">
       <h1>Products</h1>
       <ul class='product-list'></ul>
   </div>
-
-</main>
+  <div id="product-new" class="page">
+    <form id='new-product-form' action="">
+      <div>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title">
+      </div>
+      <div>
+        <label for="description">Description</label>
+        <textarea name="description" id="description"></textarea>
+      </div>
+      <div>
+        <label for="price">Price</label>
+        <input type="number" name="price" id="price">
+      </div>
+      <div>
+        <input type="submit" value="Create Product">
+      </div>
+    </form>
+  </div>
+<!--  -->
 </body>
 
 </html>
