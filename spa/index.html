@@ -10,7 +10,7 @@
 
 <body>
 
-  <h1>Amazon</h1>
+  <h1>Amazing Amazon</h1>
   <div id="product-show" class="page"></div>
   <div id="product-index" class="page">
       <h1>Products</h1>
@@ -35,7 +35,25 @@
       </div>
     </form>
   </div>
-<!--  -->
+<main class="page" id="product-edit">
+  <h1>Edit Product</h1>
+  <form id="edit-product-form">
+    <div>
+      <label for="title">Title</label><br />
+      <input type="text" name="title" id="title"  />
+    </div>
+    <div>
+      <label for="description">Description</label><br />
+      <textarea name="description" id="description"></textarea>
+    </div>
+    <div>
+      <label for="price">Price</label><br />
+      <input type="number" name="price" id="price"/>
+    </div>
+    <input type="hidden" value="" name="id" />
+    <input type="submit" value="Update Product" />
+  </form>
+</main>
 </body>
 
 </html>

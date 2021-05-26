@@ -1,8 +1,7 @@
 class Api::V1::ProductsController < Api::ApplicationController
+  before_action :find_product, only: [:show, :destroy, :update]
   before_action :authenticate_user!, except: [:index, :show]
   before_action :authorize!, only: [:update, :destroy]
-
-  before_action :find_product, only: [:show, :destroy, :update]
 
   def index
     products = Product.order(created_at: :desc)
