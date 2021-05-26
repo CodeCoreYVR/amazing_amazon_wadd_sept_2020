@@ -36,7 +36,19 @@ const Products = {
       },
       credentials: 'include'
     })
+  },
+
+  update(id, params) {
+    return fetch(`${BASE_URL}/products/${id}`, {
+      credentials: "include",
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    }).then(res => res.json());
   }
+
 };
 const Session = {
   create(params) {
@@ -144,3 +156,39 @@ newProductForm.addEventListener('submit',(event)=>{
       console.log(data)
     })
   })
+  function populateForm(id) {
+    Products.show(id).then(product => {
+      document.querySelector("#edit-product-form [name=title]").value =
+        product.title;
+      document.querySelector("#edit-product-form [name=description]").value =
+        product.description;
+      document.querySelector("#edit-product-form [name=id]").value = product.id;
+    });
+  }
+  document.querySelector("#product-show").addEventListener("click", event => {
+    const link = event.target.closest("[data-target]");
+    if (link) {
+      event.preventDefault();
+      populateForm(link.getAttribute("data-id"));
+      const targetPage = link.getAttribute("data-target");
+      navigateTo(targetPage);
+    }
+  });
+
+  // Edit a product action
+  const editProductForm = document.querySelector("#edit-product-form");
+  editProductForm.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const fd = new FormData(event.currentTarget);
+    const updatedProduct = {
+      title: fd.get("title"),
+      description: fd.get("description"),
+      price: fd.get("price")
+    };
+    Product.update(fd.get("id"), updatedProduct).then(product => {
+      
+      editProductForm.reset();
+      renderProductShow(product.id);
+    });
+  });
