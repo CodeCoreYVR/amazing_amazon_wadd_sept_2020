@@ -28,6 +28,9 @@ Rails.application.routes.draw do
       resources :products, only: [:index, :show, :create, :update, :destroy]
       resource :session, only: [:create, :destroy]
       get("/current_user", to: "sessions#get_current_user")
+      resources :users, only: [:create] do
+        get :current, on: :collection
+      end
     end
   end
 

@@ -11,7 +11,7 @@ class Api::V1::UsersController < Api::ApplicationController
     else
       render(
         json: { errors: user.errors.messages },
-        status: 422,
+        status: 422, # Unprocessable Entity
       )
     end
   end
