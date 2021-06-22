@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         get :current, on: :collection
       end
     end
+    match "*unmatched_route", to: "application#not_found", via: :all
   end
 
   resources :products do
