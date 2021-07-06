@@ -9,6 +9,7 @@ import "channels"
 
 Rails.start()
 ActiveStorage.start()
+import "underscore"
 
 import "./selectize"
 window.jQuery = $;

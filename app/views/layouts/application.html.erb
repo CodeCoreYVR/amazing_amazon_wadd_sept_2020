@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_pack_tag 'application' %>
+    <script  src="//maps.googleapis.com/maps/api/js?key=AIzaSyCfN1UI1TzEDJdZcPTpPDSFXpVO872PRdE
+      "></script>
+    <script  src="//cdnjs.cloudflare.com/ajax/libs/markerclustererplus/2.1.4/markerclusterer.min.js"></script>
+    <script  src='//cdn.jsdelivr.net/gmaps4rails/2.1.2/gmaps4rails.js'></script>
+    <script  src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js'></script>
   </head>
-
   <body>
     <%= render 'shared/navbar' %>
     <%= render 'shared/flash_messages' %>

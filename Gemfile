@@ -24,6 +24,9 @@ gem "active_model_serializers"
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
+gem "geocoder"
+gem 'gmaps4rails'
+gem 'underscore-rails', '~> 1.8', '>= 1.8.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.4", require: false

@@ -16,6 +16,7 @@ PASSWORD = "supersecret"
 Review.destroy_all()
 Product.destroy_all()
 User.destroy_all()
+Location.destroy_all()
 Tagging.delete_all()
 Tag.delete_all()
 
@@ -26,7 +27,13 @@ super_user = User.create(
   password: PASSWORD,
   admin: true,
 )
-
+rand(1..4).times do
+  l = Location.create({
+    latitude: Faker::Address.latitude,
+    longitude: Faker::Address.longitude,
+    user_id: super_user.id,
+  })
+end
 NUM_OF_USERS.times do |x|
   u = User.create({
     first_name: Faker::Games::SuperSmashBros.fighter,
@@ -35,10 +42,18 @@ NUM_OF_USERS.times do |x|
     password: PASSWORD,
   })
   Stdout.progress_bar(NUM_OF_USERS, x, "█") { "Creating Users" }
+  if u.save!
+    rand(5..10).times do
+      l = Location.create({
+        latitude: Faker::Address.latitude,
+        longitude: Faker::Address.longitude,
+        user_id: u.id,
+      })
+    end
+  end
 end
 
 users = User.all
-
 NUM_OF_TAGS.times do
   Tag.create(name: Faker::Science.scientist)
 end
@@ -71,9 +86,9 @@ end
 
 products = Product.all
 reviews = Review.all
-
+locations = Location.all
 puts Cowsay.say("Generated #{products.count} products with #{NUM_OF_REVIEWS} reviews each!", :sheep)
 puts Cowsay.say("Generated #{users.count}  users!", :turtle)
-# puts Cowsay.say("Generated #{likes.count}  likes!", :bunny)
+puts Cowsay.say("Generated #{locations.count}  locations!", :bunny)
 puts Cowsay.say("Generated #{tags.count}  tags!", :ghostbusters)
 # puts Cowsay.say("Generated #{favourites.count}  favourites!", :tux)

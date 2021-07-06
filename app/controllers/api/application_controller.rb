@@ -27,13 +27,6 @@ class Api::ApplicationController < ApplicationController
   end
 
   def standard_error(error)
-    # When we rescue an error, we prevent our program from doing
-    # what it would normally do in a crash, such as logging the
-    # details and the backtrace.
-    # It's importante to always log this info when rescuing a general type
-
-    # Use the logger.error method with an error's message to log
-    # the error details again
     logger.error error.full_message
 
     render(
