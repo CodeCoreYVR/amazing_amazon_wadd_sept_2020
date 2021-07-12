@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_06_203021) do
+ActiveRecord::Schema.define(version: 2021_07_12_195239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,12 @@ ActiveRecord::Schema.define(version: 2021_07_06_203021) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "password_digest"
     t.boolean "admin", default: false
+    t.string "uid"
+    t.string "provider"
+    t.string "oauth_token"
+    t.string "oauth_secret"
+    t.string "oauth_raw_data"
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider"
   end
 
   create_table "votes", force: :cascade do |t|

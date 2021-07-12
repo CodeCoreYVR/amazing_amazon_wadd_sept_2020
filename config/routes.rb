@@ -34,6 +34,9 @@ Rails.application.routes.draw do
     end
     match "*unmatched_route", to: "application#not_found", via: :all
   end
+# routes for twitter authorization
+get "/auth/twitter", as: :sign_in_with_twitter
+get "/auth/:provider/callbacks" => "callbacks#index"
 
   resources :products do
     resources :reviews, shallow: :true, only: [:create, :destroy] do
