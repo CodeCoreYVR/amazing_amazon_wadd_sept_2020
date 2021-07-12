@@ -15,7 +15,9 @@
   </head>
   <body>
     <%= render 'shared/navbar' %>
-    <%= link_to "Sign in with Twitter", sign_in_with_twitter_path %>
+    <li class="nav-item">
+      <%= link_to "Sign in with Twitter", sign_in_with_twitter_path %>
+    </li>
     <%= render 'shared/flash_messages' %>
     <div class='container'>
       <%= yield %>

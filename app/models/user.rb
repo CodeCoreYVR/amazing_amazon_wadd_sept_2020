@@ -35,21 +35,23 @@ class User < ApplicationRecord
     uid.present? && provider.present?
   end
 
-  def self.find_from_omniauth(omniauth_data)
-    User.where(provider: omniauth_data["provider"],
-               uid: omniauth_data["uid"]).first
+  def self.create_from_oauth(oauth_data)
+    name = oauth_data["info"]["name"]&.split || oauth_data["info"]["nickname"]
+    self.create(
+      first_name: name[0],
+      last_name: name[1] || "",
+      uid: oauth_data["uid"],
+      provider: oauth_data["provider"],
+      oauth_raw_data: oauth_data,
+      password: SecureRandom.hex(32),
+    )
   end
 
-  def self.create_from_omniauth(omniauth_data)
-    full_name = omniauth_data["info"]["name"].split
-    User.create(uid: omniauth_data["uid"],
-                provider: omniauth_data["provider"],
-                first_name: full_name[0],
-                last_name: full_name[1],
-                oauth_token: omniauth_data["credentials"]["token"],
-                oauth_secret: omniauth_data["credentials"]["secret"],
-                oauth_raw_data: omniauth_data,
-                password: SecureRandom.hex(16))
+  def self.find_by_oauth(oauth_data)
+    self.find_by(
+      uid: oauth_data["uid"],
+      provider: oauth_data["provider"],
+    )
   end
 end
 
